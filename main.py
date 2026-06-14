@@ -1,8 +1,9 @@
 import sys
 from pathlib import Path
-from tkinter import filedialog
 import customtkinter as ctk
+from customtkinter import filedialog
 import requests
+import json
 
 
 def get_code():
@@ -23,16 +24,20 @@ def get_code():
 
 class LetterEditorPro(get_code()):
     def __init__(self):
+        self.find_and_apply_theme()
         super().__init__()
         self.title("Letter Editor Pro")
 
         self.bottom_bar = ctk.CTkFrame(self)
 
-        topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top Lock", onvalue=1, offvalue=0, command=lambda: self.wm_attributes("-topmost", topmost_toggle.get()))
-        topmost_toggle.pack(side="left", padx=5, pady=5)
+        self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top Lock", onvalue=True, offvalue=False, command=lambda: self.wm_attributes("-topmost", topmost_toggle.get()))
+        self.topmost_toggle.pack(side="left", padx=5, pady=5)
 
-        update_button = ctk.CTkButton(self.bottom_bar, text="Update", width=100, command=self.update)
-        update_button.pack(side="right", padx=5, pady=5)
+        self.update_button = ctk.CTkButton(self.bottom_bar, text="Update", width=100, command=self.update)
+        self.update_button.pack(side="right", padx=5, pady=5)
+
+        self.apply_theme_button = ctk.CTkButton(self.bottom_bar, text="Apply Theme", width=100, command=self.apply_theme)
+        self.apply_theme_button.pack(side="right", padx=5, pady=5)
 
         self.bottom_bar.pack(fill="x", padx=10, pady=(0, 10))
 
@@ -44,8 +49,28 @@ class LetterEditorPro(get_code()):
         path.unlink(missing_ok=True)
         self.destroy()
 
+    def find_and_apply_theme(self):
+        if getattr(sys, "frozen", False):
+            path = Path(sys.executable).resolve().parent / "theme.json"
+        else:
+            path = Path(__file__).resolve().parent / "theme.json"
+        if path.exists():
+            ctk.set_default_color_theme(str(path))
+
+    def apply_theme(self):
+        if getattr(sys, "frozen", False):
+            path = Path(sys.executable).resolve().parent / "theme.json"
+        else:
+            path = Path(__file__).resolve().parent / "theme.json"
+        org = filedialog.askopenfilename(title="Open File", filetypes=[("Theme File", "*.json")])
+        if org:
+            org = Path(org).resolve()
+            if org.exists():
+                theme = json.loads(org.read_text())
+                path.write_text(json.dumps(theme, indent=4))
+                self.destroy()
+
 
 if __name__ == "__main__":
-    ctk.set_default_color_theme("green")
     editor = LetterEditorPro()
     editor.mainloop()
