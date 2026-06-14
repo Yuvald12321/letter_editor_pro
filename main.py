@@ -30,7 +30,7 @@ class LetterEditorPro(get_code()):
 
         self.bottom_bar = ctk.CTkFrame(self)
 
-        self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top Lock", onvalue=True, offvalue=False, command=lambda: self.wm_attributes("-topmost", topmost_toggle.get()))
+        self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top Lock", onvalue=True, offvalue=False, command=lambda: self.wm_attributes("-topmost", self.topmost_toggle.get()))
         self.topmost_toggle.pack(side="left", padx=5, pady=5)
 
         self.update_button = ctk.CTkButton(self.bottom_bar, text="Update", width=100, command=self.update)
