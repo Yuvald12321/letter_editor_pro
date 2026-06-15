@@ -26,6 +26,7 @@ class LetterEditorPro(get_code()):
     def __init__(self):
         self.find_and_apply_theme()
         super().__init__()
+
         self.title("Letter Editor Pro")
 
         self.bottom_bar = ctk.CTkFrame(self)
