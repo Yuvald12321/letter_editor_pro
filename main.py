@@ -40,7 +40,7 @@ class LetterEditorPro(get_code()):
         self.apply_theme_button = ctk.CTkButton(self.bottom_bar, text="Apply Theme", width=100, command=self.apply_theme)
         self.apply_theme_button.pack(side="right", padx=5, pady=5)
 
-        self.bottom_bar.pack(fill="x", padx=10, pady=(0, 10))
+        self.bottom_bar.grid(row=2, column=0, sticky="ew", padx=10, pady=(0, 10))
 
     def update(self):
         if getattr(sys, "frozen", False):
