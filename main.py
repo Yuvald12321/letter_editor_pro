@@ -31,7 +31,7 @@ class LetterEditorPro(get_code()):
 
         self.bottom_bar = ctk.CTkFrame(self)
 
-        self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top Lock", onvalue=True, offvalue=False, command=lambda: self.wm_attributes("-topmost", self.topmost_toggle.get()))
+        self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top Lock", command=lambda: self.wm_attributes("-topmost", self.topmost_toggle.get()))
         self.topmost_toggle.pack(side="left", padx=5, pady=5)
 
         self.update_button = ctk.CTkButton(self.bottom_bar, text="Update", width=100, command=self.update)
@@ -40,9 +40,10 @@ class LetterEditorPro(get_code()):
         self.apply_theme_button = ctk.CTkButton(self.bottom_bar, text="Apply Theme", width=100, command=self.load_new_theme)
         self.apply_theme_button.pack(side="right", padx=5, pady=5)
 
-        self.bottom_bar.grid(row=2, column=0, sticky="ew", padx=10, pady=(0, 10))
+        self.tasks_button = ctk.CTkButton(self.bottom_bar, text="Tasks", width=100, command=self.setup_tasks)
+        self.tasks_button.pack(side="right", padx=5, pady=5)
 
-        self.setup_tasks()
+        self.bottom_bar.grid(column=0, row=2, sticky="ew", padx=10, pady=(0, 10))
 
     def update(self):
         if getattr(sys, "frozen", False):
@@ -78,7 +79,8 @@ class LetterEditorPro(get_code()):
 
         self.tasks_window = ctk.CTkToplevel(self)
         self.tasks_window.title("Tasks")
-        self.tasks_window.transient(self)
+        self.tasks_window.geometry("300x400")
+        self.tasks_window.wm_attributes("-topmost", True)
 
         self.tasks_label = ctk.CTkLabel(self.tasks_window, text="Tasks")
         self.tasks_label.pack(side="top")
@@ -102,8 +104,8 @@ class LetterEditorPro(get_code()):
         for child in self.tasks_frame.winfo_children():
             child.destroy()
         for n, i in enumerate(self.tasks_list):
-            ctk.CTkButton(self.tasks_frame, text="X", width=1, fg_color="transparent", hover_color="red", command=lambda: self.remove_task(i)).grid(row=n, column=1, sticky="e", padx=5, pady=5)
-            ctk.CTkCheckBox(self.tasks_frame, text=i).grid(row=n, column=0, sticky="w", padx=5, pady=5)
+            ctk.CTkButton(self.tasks_frame, text="X", fg_color="transparent", hover_color="red", width=0, command=lambda: self.remove_task(i)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
+            ctk.CTkCheckBox(self.tasks_frame, text=i).grid(column=1, row=n, sticky="w", padx=0, pady=5)
 
     def add_task(self, task):
         self.tasks_list.append(task)
