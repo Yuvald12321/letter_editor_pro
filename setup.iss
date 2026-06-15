@@ -1,5 +1,4 @@
 #define MyAppName "The letter editor pro"
-#define MyAppVersion "1.0.0"
 #define MyAppPublisher "Yuvald12321"
 #define MyAppURL "https://github.com/Yuvald12321/"
 #define MyAppExeName "The letter editor pro.exe"
@@ -10,7 +9,7 @@
 [Setup]
 AppId={{57076A3A-B75D-4CD6-92F4-EF4B435D84C1}
 AppName={#MyAppName}
-AppVersion={#MyAppVersion}
+AppVerName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
