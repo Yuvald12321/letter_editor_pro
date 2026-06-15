@@ -4,7 +4,7 @@
 #define MyAppExeName "The letter editor pro.exe"
 #define MyAppAssocName "Letter file"
 #define MyAppAssocExt ".txt"
-#define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
+#define MyAppAssocKey "LetterFileText"
 #define MyAppIconName "logo.ico"
 
 [Setup]
@@ -13,13 +13,10 @@ AppName={#MyAppName}
 AppVerName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
 DefaultDirName={localappdata}\{#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
-ChangesAssociations=yes
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=D:\python projects\letter editor pro\dist
