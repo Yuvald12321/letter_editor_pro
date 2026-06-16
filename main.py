@@ -80,9 +80,9 @@ class LetterEditorPro(get_code()):
         else:
             self.tasks_path = Path(__file__).resolve().parent / "tasks.json"
         if not self.tasks_path.exists():
-            self.tasks_path.write_text("[]")
+            self.tasks_path.write_text("{}")
 
-        self.tasks_list = json.loads(self.tasks_path.read_text())
+        self.tasks = json.loads(self.tasks_path.read_text())
 
         self.tasks_window = ctk.CTkToplevel(self)
         self.tasks_window.title("Tasks")
@@ -93,7 +93,6 @@ class LetterEditorPro(get_code()):
         self.tasks_label.pack(side="top")
 
         self.tasks_frame = ctk.CTkScrollableFrame(self.tasks_window)
-
         self.tasks_frame.pack(fill="both", expand=True, padx=5)
 
         self.add_task_frame = ctk.CTkFrame(self.tasks_window)
@@ -109,23 +108,36 @@ class LetterEditorPro(get_code()):
 
         self.update_tasks()
 
+    def save_tasks(self):
+        self.tasks_path.write_text(json.dumps(self.tasks, indent=4))
+
     def update_tasks(self):
         for child in self.tasks_frame.winfo_children():
             child.destroy()
-        for n, i in enumerate(self.tasks_list):
-            ctk.CTkButton(self.tasks_frame, text="X", fg_color="transparent", hover_color="red", width=0, command=lambda i=i: self.remove_task(i)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
-            ctk.CTkCheckBox(self.tasks_frame, text=i).grid(column=1, row=n, sticky="w", padx=0, pady=5)
+        for n, (task, is_completed) in enumerate(self.tasks.items()):
+            ctk.CTkButton(self.tasks_frame, text="X", fg_color="transparent", hover_color="red", width=0, command=lambda t=task: self.remove_task(t)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
+            checkbox = ctk.CTkCheckBox(self.tasks_frame, text=task)
+            checkbox.grid(column=1, row=n, sticky="w", padx=0, pady=5)
+            if is_completed:
+                checkbox.select()
+            checkbox.configure(command=lambda c=checkbox, t=task: self.toggle_task(c, t))
+
+    def toggle_task(self, checkbox, task):
+        self.tasks[task] = bool(checkbox.get())
+        self.save_tasks()
 
     def add_task(self, task):
-        self.tasks_list.append(task)
-        self.tasks_path.write_text(json.dumps(self.tasks_list, indent=4))
-        self.add_task_entry.delete(0, "end")
-        self.update_tasks()
+        if task and task not in self.tasks:
+            self.tasks[task] = False
+            self.save_tasks()
+            self.add_task_entry.delete(0, "end")
+            self.update_tasks()
 
     def remove_task(self, task):
-        self.tasks_list.remove(task)
-        self.tasks_path.write_text(json.dumps(self.tasks_list, indent=4))
-        self.update_tasks()
+        if task in self.tasks:
+            del self.tasks[task]
+            self.save_tasks()
+            self.update_tasks()
 
 
 if __name__ == "__main__":
