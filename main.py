@@ -36,7 +36,7 @@ class LetterEditorPro(get_code()):
 
         self.bottom_bar = ctk.CTkFrame(self)
 
-        self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top Lock", command=lambda: self.wm_attributes("-topmost", self.topmost_toggle.get()))
+        self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top lock", command=lambda: self.wm_attributes("-topmost", self.topmost_toggle.get()))
         self.topmost_toggle.pack(side="left", padx=5, pady=5)
 
         self.tasks_button = ctk.CTkButton(self.bottom_bar, text="Tasks", width=100, command=self.setup_tasks)
@@ -50,7 +50,7 @@ class LetterEditorPro(get_code()):
     def setup_more_options(self):
         self.more_options_button.configure(state="disabled")
 
-        self.more_options_frame = ctk.CTkFrame(self, width=150)
+        self.more_options_frame = ctk.CTkFrame(self)
 
         self.more_options_label = ctk.CTkLabel(self.more_options_frame, text="More options")
         self.more_options_label.pack(fill="x", padx=5, pady=5)
@@ -58,16 +58,17 @@ class LetterEditorPro(get_code()):
         self.more_options_close_button = ctk.CTkButton(self.more_options_label, text="❌", fg_color="transparent", hover_color="red", width=0, command=self.close_more_options)
         self.more_options_close_button.grid(column=1, row=0)
 
-        self.update_button = ctk.CTkButton(self.more_options_frame, text="Update", command=self.update)
-        self.update_button.pack(padx=5, pady=5)
+        self.update_button = ctk.CTkButton(self.more_options_frame, text="update", command=self.update)
+        self.update_button.pack(padx=5, pady=(0, 5))
 
-        self.apply_theme_button = ctk.CTkButton(self.more_options_frame, text="Apply theme", command=self.load_new_theme)
-        self.apply_theme_button.pack(padx=5, pady=5)
+        self.apply_theme_button = ctk.CTkButton(self.more_options_frame, text="apply theme", command=self.load_new_theme)
+        self.apply_theme_button.pack(padx=5, pady=(0, 5))
 
-        self.delete_theme_button = ctk.CTkButton(self.more_options_frame, text="Remove theme", command=self.delete_theme)
-        self.delete_theme_button.pack(padx=5, pady=5)
+        self.delete_theme_button = ctk.CTkButton(self.more_options_frame, text="remove theme", command=self.delete_theme)
+        self.delete_theme_button.pack(padx=5, pady=(0, 5))
 
-        self.delete_tasks_button = ctk.CTkButton(self.more_options, text="Remove all tasks")
+        self.delete_tasks_button = ctk.CTkButton(self.more_options_frame, text="delete all tasks", command=self.delete_tasks)
+        self.delete_tasks_button.pack(padx=5, pady=(0, 5))
 
         self.more_options_frame.grid(column=1, row=0, rowspan=3, sticky="nsew", padx=(0, 10), pady=10)
 
@@ -87,7 +88,7 @@ class LetterEditorPro(get_code()):
 
     def load_new_theme(self):
         path = get_path("theme.json")
-        org = filedialog.askopenfilename(title="Open File", filetypes=[("Theme File", "*.json")])
+        org = filedialog.askopenfilename(title="Open file", filetypes=[("Theme File", "*.json")])
         if org:
             org = Path(org).resolve()
             if org.exists():

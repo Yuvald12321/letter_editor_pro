@@ -1,2 +1,2 @@
 pyinstaller --onefile --noconsole --icon "logo.ico" -n "The letter editor pro" main.py
-"D:\Inno Setup\ISCC.exe" setup.iss
+& "D:\Inno Setup\ISCC.exe" setup.iss
