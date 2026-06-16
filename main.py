@@ -75,7 +75,14 @@ class LetterEditorPro(get_code()):
                 self.destroy()
 
     def setup_tasks(self):
-        self.tasks_list = []
+        if getattr(sys, "frozen", False):
+            self.tasks_path = Path(sys.executable).resolve().parent / "tasks.json"
+        else:
+            self.tasks_path = Path(__file__).resolve().parent / "tasks.json"
+        if not self.tasks_path.exists():
+            self.tasks_path.write_text("[]")
+
+        self.tasks_list = json.loads(self.tasks_path.read_text())
 
         self.tasks_window = ctk.CTkToplevel(self)
         self.tasks_window.title("Tasks")
@@ -100,20 +107,24 @@ class LetterEditorPro(get_code()):
 
         self.add_task_frame.pack(side="bottom", fill="x", padx=5, pady=5)
 
+        self.update_tasks()
+
     def update_tasks(self):
         for child in self.tasks_frame.winfo_children():
             child.destroy()
         for n, i in enumerate(self.tasks_list):
-            ctk.CTkButton(self.tasks_frame, text="X", fg_color="transparent", hover_color="red", width=0, command=lambda: self.remove_task(i)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
+            ctk.CTkButton(self.tasks_frame, text="X", fg_color="transparent", hover_color="red", width=0, command=lambda i=i: self.remove_task(i)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
             ctk.CTkCheckBox(self.tasks_frame, text=i).grid(column=1, row=n, sticky="w", padx=0, pady=5)
 
     def add_task(self, task):
         self.tasks_list.append(task)
+        self.tasks_path.write_text(json.dumps(self.tasks_list, indent=4))
         self.add_task_entry.delete(0, "end")
         self.update_tasks()
 
     def remove_task(self, task):
         self.tasks_list.remove(task)
+        self.tasks_path.write_text(json.dumps(self.tasks_list, indent=4))
         self.update_tasks()
 
 
