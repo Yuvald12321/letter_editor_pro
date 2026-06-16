@@ -39,11 +39,11 @@ class LetterEditorPro(get_code()):
         self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top lock", command=lambda: self.wm_attributes("-topmost", self.topmost_toggle.get()))
         self.topmost_toggle.pack(side="left", padx=5, pady=5)
 
-        self.tasks_button = ctk.CTkButton(self.bottom_bar, text="Tasks", width=100, command=self.setup_tasks)
-        self.tasks_button.pack(side="right", padx=5, pady=5)
-
         self.more_options_button = ctk.CTkButton(self.bottom_bar, text="More options", width=100, command=self.setup_more_options)
         self.more_options_button.pack(side="right", padx=5, pady=5)
+
+        self.tasks_button = ctk.CTkButton(self.bottom_bar, text="Tasks", width=100, command=self.setup_tasks)
+        self.tasks_button.pack(side="right", padx=5, pady=5)
 
         self.bottom_bar.grid(column=0, row=2, sticky="ew", padx=10, pady=(0, 10))
 
