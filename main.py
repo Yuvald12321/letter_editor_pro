@@ -88,7 +88,7 @@ class LetterEditorPro(get_code()):
 
     def load_new_theme(self):
         path = get_path("theme.json")
-        org = filedialog.askopenfilename(title="Open file", filetypes=[("Theme File", "*.json")])
+        org = filedialog.askopenfilename(filetypes=[("Theme File", "*.json")])
         if org:
             org = Path(org).resolve()
             if org.exists():
