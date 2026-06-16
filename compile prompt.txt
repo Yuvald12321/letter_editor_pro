@@ -1,4 +1,0 @@
-pyinstaller --onefile --noconsole --icon "logo.ico" -n "The letter editor pro" main.py
-del "build" -Recurse
-del "The letter editor pro.spec"
-& "D:\Inno Setup\ISCC.exe" setup.iss
