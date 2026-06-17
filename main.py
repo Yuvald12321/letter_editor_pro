@@ -55,7 +55,7 @@ class LetterEditorPro(get_code()):
         self.more_options_label = ctk.CTkLabel(self.more_options_frame, text="More options")
         self.more_options_label.pack(fill="x", padx=5, pady=5)
 
-        self.more_options_close_button = ctk.CTkButton(self.more_options_label, text="⨉", fg_color="transparent", hover_color="red", width=0, command=self.close_more_options)
+        self.more_options_close_button = ctk.CTkButton(self.more_options_label, text="❌", fg_color="transparent", hover_color="red", width=0, command=self.close_more_options)
         self.more_options_close_button.grid(column=1, row=0)
 
         self.update_button = ctk.CTkButton(self.more_options_frame, text="update", command=self.update)
