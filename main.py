@@ -144,7 +144,8 @@ class LetterEditorPro(get_code()):
         for child in self.tasks_frame.winfo_children():
             child.destroy()
         for n, (task, is_completed) in enumerate(self.tasks.items()):
-            ctk.CTkButton(self.tasks_frame, text="⨉", fg_color="transparent", width=0, command=lambda t=task: self.remove_task(t)).grid(row=n, column=0, sticky="w", padx=5, pady=5)            checkbox = ctk.CTkCheckBox(self.tasks_frame, text=task)
+            ctk.CTkButton(self.tasks_frame, text="⨉", fg_color="transparent", width=0, command=lambda t=task: self.remove_task(t)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
+            checkbox = ctk.CTkCheckBox(self.tasks_frame, text=task)
             checkbox.grid(column=1, row=n, sticky="w", padx=0, pady=5)
             if is_completed:
                 checkbox.select()
