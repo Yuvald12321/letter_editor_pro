@@ -55,7 +55,7 @@ class LetterEditorPro(get_code()):
         self.more_options_label = ctk.CTkLabel(self.more_options_frame, text="More options")
         self.more_options_label.pack(fill="x", padx=5, pady=5)
 
-        self.more_options_close_button = ctk.CTkButton(self.more_options_label, text="❌", fg_color="transparent", hover_color="red", width=0, command=self.close_more_options)
+        self.more_options_close_button = ctk.CTkButton(self.more_options_label, text="❌", hover_color="red", width=0, command=self.close_more_options)
         self.more_options_close_button.grid(column=1, row=0)
 
         self.update_button = ctk.CTkButton(self.more_options_frame, text="update", command=self.update)
@@ -144,7 +144,7 @@ class LetterEditorPro(get_code()):
         for child in self.tasks_frame.winfo_children():
             child.destroy()
         for n, (task, is_completed) in enumerate(self.tasks.items()):
-            ctk.CTkButton(self.tasks_frame, text="⨉", fg_color="transparent", width=0, command=lambda t=task: self.remove_task(t)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
+            ctk.CTkButton(self.tasks_frame, text="⨉", width=0, height=25, command=lambda t=task: self.remove_task(t)).grid(row=n, column=0, sticky="w", padx=5, pady=5)
             checkbox = ctk.CTkCheckBox(self.tasks_frame, text=task)
             checkbox.grid(column=1, row=n, sticky="w", padx=0, pady=5)
             if is_completed:
