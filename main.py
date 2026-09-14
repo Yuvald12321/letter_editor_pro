@@ -1,5 +1,5 @@
-# /Lib/site-packages/ctk_markdown/__init__.py
-# 555:37 '✓ Copiado!' -> '✓ Copyed!'
+# /Lib/site-packages/ctk_markdown/ctk_markdown.py
+# 555:37 '✓ Copiado!' -> '✓ Copied!'
 # 557:22 '⎘ Copiar' -> '⎘ Copy'
 # 562:18 '⎘ Copiar' -> '⎘ Copy'
 
@@ -85,6 +85,9 @@ class LetterEditorPro(get_code()):
 
         self.update_button = ctk.CTkButton(self.more_options_frame, text="update", command=self.update)
         self.update_button.pack(padx=5, pady=(0, 5))
+
+        self.open_themes_button = ctk.CTkButton(self.more_options_frame, text="themes", command=lambda: webbrowser.open("https://github.com/a13xe/CTkThemesPack#readme"))
+        self.open_themes_button.pack(padx=5, pady=(0, 5))
 
         self.apply_theme_button = ctk.CTkButton(self.more_options_frame, text="apply theme", command=self.load_new_theme)
         self.apply_theme_button.pack(padx=5, pady=(0, 5))
