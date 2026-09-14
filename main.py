@@ -6,6 +6,7 @@
 import importlib.util
 import json
 import sys
+import webbrowser
 from pathlib import Path
 from tkinter import messagebox
 import ctk_markdown as ctkm
@@ -93,6 +94,9 @@ class LetterEditorPro(get_code()):
 
         self.delete_tasks_button = ctk.CTkButton(self.more_options_frame, text="delete all tasks", command=self.delete_tasks)
         self.delete_tasks_button.pack(padx=5, pady=(0, 5))
+
+        self.markdown_help_button = ctk.CTkButton(self.more_options_frame, text="help Markdown", command=lambda: webbrowser.open("https://markdownguide.org/basic-syntax/"))
+        self.markdown_help_button.pack(padx=5, pady=(0, 5))
 
         self.more_options_frame.grid(column=1, row=0, rowspan=3, sticky="nsew", padx=(0, 10), pady=10)
 
