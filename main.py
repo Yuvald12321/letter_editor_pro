@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 from tkinter import messagebox
+import ctk_markdown as ctkm
 import customtkinter as ctk
 import requests
 from customtkinter import filedialog
@@ -19,7 +20,7 @@ def get_path(name):
 def get_code():
     path = get_path("code.py")
     if not path.exists():
-        url = "https://raw.githubusercontent.com/Yuvald12321/letter_editor/refs/heads/master/main.py"
+        url = "https://raw.githubusercontent.com/Yuvald12321/letter_editor/master/main.py"
         code = requests.get(url).content
         path.write_bytes(code)
     spec = importlib.util.spec_from_file_location("dynamic_code", str(path))
@@ -40,6 +41,9 @@ class LetterEditorPro(get_code()):
         self.topmost_toggle = ctk.CTkSwitch(self.bottom_bar, text="Top lock", command=lambda: self.wm_attributes("-topmost", self.topmost_toggle.get()))
         self.topmost_toggle.pack(side="left", padx=5, pady=5)
 
+        self.markdown_toggle = ctk.CTkSwitch(self.bottom_bar, text="Markdown", command=self.markdown_viewer_toggle)
+        self.markdown_toggle.pack(side="left", padx=5, pady=5)
+
         self.more_options_button = ctk.CTkButton(self.bottom_bar, text="More options", width=100, command=self.setup_more_options)
         self.more_options_button.pack(side="right", padx=5, pady=5)
 
@@ -47,6 +51,20 @@ class LetterEditorPro(get_code()):
         self.tasks_button.pack(side="right", padx=5, pady=5)
 
         self.bottom_bar.grid(column=0, row=2, sticky="ew", padx=10, pady=(0, 10))
+
+    def markdown_viewer_toggle(self):
+        if self.markdown_toggle.get():
+            self.setup_markdown_viewer()
+        else:
+            self.close_markdown_viewer()
+
+    def setup_markdown_viewer(self):
+        self.markdown_textbox = ctkm.CTkMarkdown(self)
+        self.markdown_textbox.grid(column=0, row=1, sticky="nsew", padx=10, pady=10)
+        self.markdown_textbox.set_markdown(self.textbox.get("1.0", "end-1c"))
+
+    def close_markdown_viewer(self):
+        self.markdown_textbox.destroy()
 
     def setup_more_options(self):
         self.more_options_button.configure(state="disabled")
@@ -86,7 +104,8 @@ class LetterEditorPro(get_code()):
         path.unlink(missing_ok=True)
         self.close_message()
 
-    def find_and_apply_theme(self):
+    @staticmethod
+    def find_and_apply_theme():
         path = get_path("theme.json")
         if path.exists():
             ctk.set_default_color_theme(str(path))
@@ -174,7 +193,8 @@ class LetterEditorPro(get_code()):
             self.save_tasks()
             self.update_tasks()
 
-    def delete_tasks(self):
+    @staticmethod
+    def delete_tasks():
         get_path("tasks.json").unlink(missing_ok=True)
 
 
