@@ -1,6 +1,5 @@
 import importlib.util
 import json
-import subprocess
 import sys
 from pathlib import Path
 from tkinter import messagebox
@@ -78,20 +77,14 @@ class LetterEditorPro(get_code()):
         self.more_options_button.configure(state="normal")
         self.more_options_frame.destroy()
 
-    def restart_message(self):
-        if messagebox.askyesno("success", "do you want to restart the program?"):
-            args = [sys.executable]
-            if not getattr(sys, "frozen", False):
-                args.append(str(Path(__file__).resolve()))
-            if self.path:
-                args.append(str(self.path))
-            subprocess.Popen(args)
+    def close_message(self):
+        if messagebox.askyesno("success", "the program needs to restart.\ndo you want to close it now?"):
             self.destroy()
 
     def update(self):
         path = get_path("code.py")
         path.unlink(missing_ok=True)
-        self.restart_message()
+        self.close_message()
 
     def find_and_apply_theme(self):
         path = get_path("theme.json")
@@ -106,11 +99,11 @@ class LetterEditorPro(get_code()):
             if org.exists():
                 theme = json.loads(org.read_text())
                 path.write_text(json.dumps(theme, indent=4))
-                self.restart_message()
+                self.close_message()
 
     def delete_theme(self):
         get_path("theme.json").unlink(missing_ok=True)
-        self.restart_message()
+        self.close_message()
 
     def setup_tasks(self):
         self.tasks_button.configure(state="disabled")
