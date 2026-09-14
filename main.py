@@ -1,3 +1,8 @@
+# /Lib/site-packages/ctk_markdown/__init__.py
+# 555:37 '✓ Copiado!' -> '✓ Copyed!'
+# 557:22 '⎘ Copiar' -> '⎘ Copy'
+# 562:18 '⎘ Copiar' -> '⎘ Copy'
+
 import importlib.util
 import json
 import sys
