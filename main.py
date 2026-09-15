@@ -3,12 +3,11 @@
 # 557:22 '⎘ Copiar' -> '⎘ Copy'
 # 562:18 '⎘ Copiar' -> '⎘ Copy'
 
-import functools
 import importlib.util
 import json
-import os
 import sys
 import webbrowser
+from contextlib import chdir
 from pathlib import Path
 from tkinter import messagebox
 import ctk_markdown as ctkm
@@ -35,31 +34,6 @@ def get_code():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module.LetterEditor
-
-
-class CustomWorkingDir:
-    def __init__(self, target_dir=None):
-        if target_dir is None:
-            self.target_path = Path(__file__).resolve().parent
-        else:
-            self.target_path = Path(target_dir).resolve().parent
-        self._prev_path = None
-
-    def __enter__(self):
-        self._prev_path = Path.cwd()
-        os.chdir(self.target_path)
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if self._prev_path:
-            os.chdir(self._prev_path)
-
-    def __call__(self, func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            with self:
-                return func(*args, **kwargs)
-        return wrapper
 
 
 class LetterEditorPro(get_code()):
@@ -240,5 +214,12 @@ class LetterEditorPro(get_code()):
 if __name__ == "__main__":
     editor = LetterEditorPro()
     webopen = webbrowser.open
-    webbrowser.open = lambda url: CustomWorkingDir(editor.path)(webopen)(url)
+
+    def open_in_editor_path(url):
+        if editor.path:
+            with chdir(editor.path.resolve().parent):
+                return webopen(url)
+        return webopen(url)
+
+    webbrowser.open = open_in_editor_path
     editor.mainloop()
