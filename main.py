@@ -13,6 +13,7 @@ from tkinter import messagebox
 import ctk_markdown as ctkm
 import customtkinter as ctk
 import requests
+from PIL import Image
 from customtkinter import filedialog
 
 
@@ -213,13 +214,14 @@ class LetterEditorPro(get_code()):
 
 if __name__ == "__main__":
     editor = LetterEditorPro()
-    webopen = webbrowser.open
+    def open_in_editor_chdir(func):
+        def wrapper(*args, **kwargs):
+            if editor.path:
+                with chdir(editor.path.resolve().parent):
+                    return func(*args, **kwargs)
+            return func(*args, **kwargs)
+        return wrapper
 
-    def open_in_editor_path(url):
-        if editor.path:
-            with chdir(editor.path.resolve().parent):
-                return webopen(url)
-        return webopen(url)
-
-    webbrowser.open = open_in_editor_path
+    webbrowser.open = open_in_editor_chdir(webbrowser.open)
+    Image.open = open_in_editor_chdir(Image.open)
     editor.mainloop()
