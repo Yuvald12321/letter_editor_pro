@@ -5,6 +5,7 @@
 
 import importlib.util
 import json
+import os
 import sys
 import webbrowser
 from contextlib import chdir
@@ -213,7 +214,9 @@ class LetterEditorPro(get_code()):
 
 
 if __name__ == "__main__":
+    os.chdir(get_path(""))
     editor = LetterEditorPro()
+
     def open_in_editor_chdir(func):
         def wrapper(*args, **kwargs):
             if editor.path:
