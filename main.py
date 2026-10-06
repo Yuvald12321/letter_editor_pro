@@ -118,11 +118,13 @@ class LetterEditorPro(get_code()):
         path.unlink(missing_ok=True)
         self.close_message()
 
-    @staticmethod
-    def find_and_apply_theme():
+    def find_and_apply_theme(self):
         path = get_path("theme.json")
         if path.exists():
-            ctk.set_default_color_theme(str(path))
+            try:
+                ctk.set_default_color_theme(str(path))
+            except Exception:
+                self.theme_file_error_funny_dialog()
 
     def load_new_theme(self):
         path = get_path("theme.json")
@@ -210,6 +212,23 @@ class LetterEditorPro(get_code()):
     @staticmethod
     def delete_tasks():
         get_path("tasks.json").unlink(missing_ok=True)
+
+    def theme_file_error_funny_dialog(self):
+        messagebox.showerror("Error", "Houston, we have a problem.")
+        messagebox.showinfo("Houston?", "Wait, you're not Houston.\nOr are you? I can't tell")
+        messagebox.showinfo("Back to the error", "Anyway, back to our problem")
+        messagebox.showinfo("Good news", "Lucky you, because I know what is the problem.")
+        messagebox.showinfo("The problem", "The problem is the theme.")
+        messagebox.showinfo("The problem", "The file that is selected to be the theme just isn't correct.")
+        messagebox.showinfo("More good news", "Luckily I can fix it!")
+        messagebox.showinfo("But", "By deleting the file.")
+        messagebox.showinfo("So", "So...")
+        messagebox.askquestion("Fix?", "Fix it?")
+        get_path("theme.json").unlink(missing_ok=True)
+        messagebox.showinfo("Doesn't matter", "I don't really care if you agreed or not,\nI already deleted it.")
+        messagebox.showwarning("Don't do that again", "Just promis me you wouldn't select that file again, ok?")
+        messagebox.showinfo("Bye", "Ok, bye")
+        self.destroy()
 
 
 if __name__ == "__main__":
