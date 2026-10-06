@@ -228,7 +228,7 @@ class LetterEditorPro(get_code()):
         messagebox.showinfo("Doesn't matter", "I don't really care if you agreed or not,\nI already deleted it.")
         messagebox.showwarning("Don't do that again", "Just promis me you wouldn't select that file again, ok?")
         messagebox.showinfo("Bye", "Ok, bye")
-        self.destroy()
+        sys.exit()
 
 
 if __name__ == "__main__":
